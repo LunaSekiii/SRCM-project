@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Bullet } from "@ant-design/plots";
+import { Bullet, BulletConfig } from "@ant-design/plots";
 
 export default function FileSpace() {
 	const data = [
@@ -11,7 +9,7 @@ export default function FileSpace() {
 			target: 85,
 		},
 	];
-	const config = {
+	const config: BulletConfig = {
 		data,
 		measureField: "已用",
 		rangeField: "ranges",
@@ -27,7 +25,7 @@ export default function FileSpace() {
 		},
 		yAxis: false,
 		label: {
-			target: true,
+			target: true as any,
 		},
 		// 自定义 legend
 		legend: {

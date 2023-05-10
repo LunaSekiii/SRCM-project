@@ -1,10 +1,8 @@
-import React from "react";
 import { Card } from "antd";
 import MeetingCount from "./charts/MeetingCount";
 import DiskCapacity from "./charts/DiskCapacity";
 import VisitVolume from "./charts/VisitVolume";
 import ConferenceTimeLine from "./ConferenceTimeLine";
-import ConferenceCalendar from "./ConferenceCalendar";
 import TodoList from "./TodoList";
 import ProjectProgress from "./ProjectProgress ";
 

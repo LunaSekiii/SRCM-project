@@ -1,9 +1,5 @@
 import { Tree } from "antd";
-import {
-	FolderOutlined,
-	FolderOpenOutlined,
-	FileZipOutlined,
-} from "@ant-design/icons";
+import { FileZipOutlined } from "@ant-design/icons";
 import type { DataNode, TreeProps } from "antd/es/tree";
 
 const treeData: DataNode[] = [
@@ -41,12 +37,12 @@ export default function FileView({
 }: {
 	selectFile: (v: string) => void;
 }) {
-	const onSelect: TreeProps["onSelect"] = (selectedKeys, info) => {
+	const onSelect: TreeProps["onSelect"] = (selectedKeys /*, info*/) => {
 		// console.log("selected", selectedKeys, info);
 		selectFile(selectedKeys[0].toString());
 	};
 
-	const onCheck: TreeProps["onCheck"] = (checkedKeys, info) => {
+	const onCheck: TreeProps["onCheck"] = (/*checkedKeys, info */) => {
 		// console.log("onCheck", checkedKeys, info);
 	};
 	return (

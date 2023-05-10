@@ -1,7 +1,7 @@
 import React from "react";
 import { Space, Table, Tag } from "antd";
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 interface DataType {
 	key: React.Key;
@@ -62,7 +62,7 @@ export default function ConferenceView() {
 			<Column
 				title="选项"
 				key="action"
-				render={(_: any, record: DataType) => (
+				render={() => (
 					<Space size="middle">
 						{/* <a>参加 {record["会议名称"]}</a> */}
 						<a>编辑</a>

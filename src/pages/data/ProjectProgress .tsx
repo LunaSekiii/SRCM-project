@@ -1,13 +1,12 @@
-import React from "react";
 import { Progress, Space, Card } from "antd";
 
-interface project {
+interface Project {
 	name: string;
 	percent: number;
-	statue: string;
+	status: string;
 }
 
-const projectState = [
+const projectState: Project[] = [
 	{
 		name: "项目1",
 		percent: 30,

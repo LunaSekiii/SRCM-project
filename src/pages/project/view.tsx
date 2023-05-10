@@ -1,7 +1,7 @@
 import React from "react";
-import { Space, Table, Tag } from "antd";
+import { Space, Table } from "antd";
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 interface DataType {
 	key: React.Key;
@@ -49,7 +49,7 @@ export default function ProjectView() {
 			<Column
 				title="操作"
 				key="action"
-				render={(_: any, record: DataType) => (
+				render={(_: any /*, record: DataType */) => (
 					<Space size="middle">
 						{/* <a>参加 {record["项目名称"]}</a> */}
 						<a>查看详情</a>

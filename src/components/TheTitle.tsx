@@ -1,4 +1,3 @@
-import React from "react";
 import { blue } from "@ant-design/colors";
 
 export default function TheTitle() {

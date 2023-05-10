@@ -1,9 +1,12 @@
-import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import type { Dayjs } from "dayjs";
-import dayLocaleData from "dayjs/plugin/localeData";
 import { Calendar, Col, Radio, Row, Select, Typography, theme } from "antd";
 import type { CalendarMode } from "antd/es/calendar/generateCalendar";
+
+interface day {
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	localeData: Function;
+}
 
 export default function ConferenceCalendar() {
 	const { token } = theme.useToken();
@@ -28,7 +31,7 @@ export default function ConferenceCalendar() {
 					const monthOptions = [];
 
 					let current = value.clone();
-					const localeData = value.localeData();
+					const localeData = (value as unknown as day).localeData();
 					const months = [];
 					for (let i = 0; i < 12; i++) {
 						current = current.month(i);
