@@ -13,5 +13,12 @@ export default defineConfig({
 	},
 	server: {
 		// host: "0.0.0.0",
+		proxy: {
+			"/local": {
+				target: "http://10。60.102.53:8080",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/local/, ""),
+			},
+		},
 	},
 });

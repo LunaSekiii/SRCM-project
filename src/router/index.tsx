@@ -2,11 +2,14 @@ import BaseLayout from "@/layouts/BaseLayout";
 import Data from "@/pages/data";
 import ConferenceView from "@/pages/conference/view";
 import ConferenceCreate from "@/pages/conference/create";
+import ConferenceInfo from "@/pages/conference/info";
 import File from "@/pages/file";
+import FileGroup from "@/pages/file/group";
 import UserView from "@/pages/user/view";
 import UserCreate from "@/pages/user/create";
 import ProjectView from "@/pages/project/view";
 import ProjectCreate from "@/pages/project/create";
+import Login from "@/pages/login";
 import NotFound from "@/pages/NotFound";
 import { RouteObject, Navigate } from "react-router-dom";
 
@@ -26,11 +29,18 @@ const routes: RouteObject[] = [
 						path: "create",
 						element: <ConferenceCreate />,
 					},
+					{
+						path: "info/:id",
+						element: <ConferenceInfo />,
+					},
 				],
 			},
 			{
 				path: "file",
-				children: [{ path: "self", element: <File /> }],
+				children: [
+					{ path: "self", element: <File /> },
+					{ path: "group", element: <FileGroup /> },
+				],
 			},
 			{
 				path: "user",
@@ -55,6 +65,7 @@ const routes: RouteObject[] = [
 			{ path: "404", element: <NotFound /> },
 		],
 	},
+	{ path: "/login", element: <Login /> },
 	{ path: "*", element: <Navigate to="/404" replace /> },
 ];
 

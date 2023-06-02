@@ -6,7 +6,16 @@ import ConferenceTimeLine from "./ConferenceTimeLine";
 import TodoList from "./TodoList";
 import ProjectProgress from "./ProjectProgress ";
 
+import { home } from "@/apis/home";
+// import { login } from "@/apis/user";
+import { getConferenceList } from "@/apis/conference";
+
 export default function Data() {
+	getConferenceList(0).then((res) => {
+		console.log("res", res);
+	});
+	// login("guest", "123456");
+	home().then((res) => console.log("res", res));
 	return (
 		<>
 			<div

@@ -7,23 +7,25 @@ export default function UserCreate() {
 	return (
 		<>
 			<Form
-				labelCol={{ span: 4 }}
-				wrapperCol={{ span: 14 }}
-				layout="horizontal"
-				style={{ maxWidth: "50rem", marginTop: "2rem" }}
+				labelCol={{ span: 6 }}
+				wrapperCol={{ span: 16 }}
+				layout='horizontal'
+				style={{ maxWidth: "50rem", width: "40rem", marginTop: "2rem" }}
+				className='p-center'
 			>
-				<Form.Item label="头像">
+				<Form.Item label='头像'>
 					<AvatarUploader />
 				</Form.Item>
-				<Form.Item label="姓名">
+				<Form.Item label='姓名'>
 					<Input />
 				</Form.Item>
 
-				<Form.Item label="介绍">
-					<TextArea rows={4} />
+				<Form.Item label='介绍'>
+					<TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
 				</Form.Item>
-				<Form.Item label="专业/年级">
+				<Form.Item label='专业/年级'>
 					<Cascader
+						displayRender={(label) => label.join(" ")}
 						options={[
 							{
 								value: "人工智能",
@@ -87,8 +89,8 @@ export default function UserCreate() {
 					/>
 				</Form.Item>
 
-				<Form.Item label="提交">
-					<Button>确定</Button>
+				<Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+					<Button type='primary'>提交</Button>
 				</Form.Item>
 			</Form>
 		</>

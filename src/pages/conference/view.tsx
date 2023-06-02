@@ -1,71 +1,94 @@
-import React from "react";
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, Button } from "antd";
+import dayjs from "dayjs";
+import useConference from "@/stores/useConference";
+import { shallow } from "zustand/shallow";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const { Column } = Table;
 
-interface DataType {
-	key: React.Key;
-	会议名称: string;
-	会议日期: string;
-	会议时间: string;
-	参会人数: number;
-	会议描述: string;
-	地点: string;
-	标签: string[];
+interface Meeting {
+	meetingId: number;
+	meetName: string;
+	beginTime: dayjs.Dayjs;
+	endTime: dayjs.Dayjs;
+	location: string;
+	content: string;
+	tag: number;
 }
 
-const data: DataType[] = [
-	{
-		key: 11123213,
-		会议名称: "14周周会",
-		会议日期: "2023-05-30",
-		会议时间: "13:00",
-		参会人数: 9,
-		会议描述: "确定研究方向",
-		地点: "实训楼228",
-		标签: ["大二"],
-	},
-	{
-		key: 11123214,
-		会议名称: "14周周会",
-		会议日期: "2023-05-30",
-		会议时间: "14:00",
-		参会人数: 3,
-		会议描述: "计划毕设",
-		地点: "实训楼228",
-		标签: ["大三"],
-	},
-];
+const tagsMessage = ["研究生", "大一", "大二", "大三", "大四"];
 
 export default function ConferenceView() {
+	const { list, initConferenceList, getConferenceList } = useConference(
+		(state: any) => ({
+			list: state.list,
+			initConferenceList: state.initConferenceList,
+			getConferenceList: state.getConferenceList,
+		}),
+		shallow
+	);
+	useEffect(() => {
+		initConferenceList();
+	}, [initConferenceList]);
+	const navigate = useNavigate();
 	return (
-		<Table dataSource={data}>
-			<Column title="会议名称" dataIndex="会议名称" key="会议名称" />
-			<Column title="会议日期" dataIndex="会议日期" key="会议日期" />
-			<Column title="参会人数" dataIndex="参会人数" key="参会人数" />
-			<Column title="会议描述" dataIndex="会议描述" key="会议描述" />
-			<Column title="地点" dataIndex="地点" key="地点" />
+		<Table
+			dataSource={list}
+			rowKey={(meeting) => meeting.meetingId}
+			style={{
+				margin: "20px",
+				borderRadius: "10px",
+				overflow: "hidden",
+			}}
+			loading={list.length == 0}
+			scroll={{ scrollToFirstRowOnChange: true, y: "60vh" }}
+		>
+			<Column title='会议名称' dataIndex='meetName' />
+			{/* <Column title="会议日期" dataIndex="beginTime" /> */}
 			<Column
-				title="标签"
-				dataIndex="标签"
-				key="标签"
-				render={(tags: string[]) => (
-					<>
-						{tags.map((tag) => (
-							<Tag color="blue" key={tag}>
-								{tag}
-							</Tag>
-						))}
-					</>
-				)}
+				title='开始日期'
+				render={(__, meeting: Meeting) => {
+					return dayjs(meeting.beginTime).format(
+						"YYYY年MM月DD日 HH:mm:ss"
+					);
+				}}
 			/>
 			<Column
-				title="选项"
-				key="action"
-				render={() => (
-					<Space size="middle">
-						{/* <a>参加 {record["会议名称"]}</a> */}
-						<a>编辑</a>
+				title='结束日期'
+				render={(__, meeting: Meeting) => {
+					return dayjs(meeting.endTime).format(
+						"YYYY年MM月DD日 HH:mm:ss"
+					);
+				}}
+			/>
+			<Column title='内容' dataIndex='content' />
+			<Column title='地点' dataIndex='location' />
+			<Column title='主题' dataIndex='subject' />
+			<Column title='发表人' dataIndex='publisher' />
+			<Column
+				title='标签'
+				render={(__, meeting: Meeting) => {
+					return (
+						<Tag color='blue'>
+							{tagsMessage[meeting.tag] || "老师"}
+						</Tag>
+					);
+				}}
+			/>
+			<Column
+				title='选项'
+				render={(__, meeting: Meeting) => (
+					<Space size='middle'>
+						{}
+						<Button
+							type='primary'
+							onClick={() => {
+								navigate(`../info/${meeting.meetingId}`);
+							}}
+						>
+							详情
+						</Button>
 					</Space>
 				)}
 			/>
