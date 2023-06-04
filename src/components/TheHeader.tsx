@@ -12,15 +12,18 @@ export default function TheHeader() {
 			}
 		>
 			<Button
-				type="text"
+				type='text'
 				// icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
 				// onClick={() => setCollapsed(!collapsed)}
 				style={{
 					fontSize: "16px",
 					width: 64,
 					height: 64,
+					color: "white",
 				}}
-			/>
+			>
+				12321
+			</Button>
 		</Header>
 	);
 }

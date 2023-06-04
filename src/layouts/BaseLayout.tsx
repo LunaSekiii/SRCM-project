@@ -9,9 +9,15 @@ const { Sider, Content } = Layout;
 export default function BaseLayout() {
 	const [collapsed, setCollapsed] = useState(false);
 	return (
-		<Layout style={{ minWidth: "100vw", minHeight: "100vh" }}>
+		<Layout
+			style={{
+				minWidth: "100vw",
+				minHeight: "100vh",
+				maxHeight: "100vh",
+			}}
+		>
 			<Sider
-				theme="light"
+				theme='light'
 				collapsible
 				collapsed={collapsed}
 				onCollapse={(value) => setCollapsed(value)}

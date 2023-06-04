@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import xf from ".";
 
+// 获取会议列表
 interface confirenceRes {
 	list: object[];
 	hasMore: boolean;
@@ -12,9 +13,11 @@ export function getConferenceList(page: number, pageSize = 10) {
 	) as unknown as Promise<confirenceRes>;
 }
 
+// 会议详情信息
 export interface ConferenceInfo {
+	[propsName: string]: any;
 	beginTime: dayjs.Dayjs;
-	content: string;
+	content?: string;
 	endTime: dayjs.Dayjs;
 	location: string;
 	meetName: string;
@@ -37,6 +40,27 @@ export async function getConferenceDetail(meetingId: number) {
 }
 
 export function saveConference(info: ConferenceInfo) {
+	let finalInfo = {} as ConferenceInfo;
+	let key: keyof ConferenceInfo;
+	for (key in info) {
+		if (info[key] != "null") {
+			finalInfo[key] = info[key];
+		}
+	}
+	return xf("meeting/save", {
+		method: "POST",
+		body: JSON.stringify(finalInfo),
+		headers: { "Content-Type": "application/json" },
+	});
+}
+
+// 保存会议内容
+interface ConferenceContent {
+	meetingId?: number;
+	content: string;
+}
+
+export function saveConferenceContent(info: ConferenceContent) {
 	return xf("meeting/save", {
 		method: "POST",
 		body: JSON.stringify(info),
@@ -44,6 +68,7 @@ export function saveConference(info: ConferenceInfo) {
 	});
 }
 
+// 删除会议
 export function deleteConference(meetingId: number) {
 	return xf(`meeting/delete/${meetingId}`, {
 		method: "GET",

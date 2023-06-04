@@ -62,7 +62,7 @@ export default function ConferenceView() {
 					);
 				}}
 			/>
-			<Column title='内容' dataIndex='content' />
+			{/* <Column title='内容' dataIndex='content' /> */}
 			<Column title='地点' dataIndex='location' />
 			<Column title='主题' dataIndex='subject' />
 			<Column title='发表人' dataIndex='publisher' />

@@ -18,7 +18,7 @@ import locale from "antd/es/date-picker/locale/zh_CN";
 import { useNavigate } from "react-router-dom";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const { confirm } = Modal;
 
 export default function ConferenceEdit({
@@ -57,7 +57,6 @@ export default function ConferenceEdit({
 			.then((res) => {
 				if (res) {
 					message.success({ key, content: "保存会议成功" });
-					navigate("/conference/view");
 				}
 			})
 			.catch(() =>
@@ -111,7 +110,7 @@ export default function ConferenceEdit({
 				layout='horizontal'
 				style={{
 					width: "40rem",
-					marginTop: "2rem",
+					// marginTop: "1rem",
 				}}
 				size='large'
 				initialValues={info}
@@ -130,9 +129,9 @@ export default function ConferenceEdit({
 				<Form.Item label='主题' name='subject'>
 					<Input />
 				</Form.Item>
-				<Form.Item label='会议描述' name='content'>
+				{/* <Form.Item label='会议描述' name='content'>
 					<TextArea autoSize={{ minRows: 3, maxRows: 5 }} />
-				</Form.Item>
+				</Form.Item> */}
 				<Form.Item label='发布者' name='publisher'>
 					<Input />
 				</Form.Item>
