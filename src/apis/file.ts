@@ -1,4 +1,4 @@
-import xf from ".";
+import xf, { df } from ".";
 
 export function uploadImg(fd: FormData) {
 	return xf("/image/upload", {
@@ -6,4 +6,12 @@ export function uploadImg(fd: FormData) {
 		body: fd,
 		// headers: { "Content-Type": "multipart/form-data" },
 	});
+}
+
+export function getFileInfo(id: number) {
+	return xf(`/file/${id}`);
+}
+
+export function downladFile(id: number) {
+	return df("/file/download?fileId=" + id);
 }

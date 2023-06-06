@@ -32,6 +32,7 @@ const typeMap2Icon: { [type: string]: React.ReactNode } = {
 	md: <FileMarkdownOutlined />,
 	// image
 	jpg: <FileJpgOutlined />,
+	jpeg: <FileJpgOutlined />,
 	gif: <FileGifOutlined />,
 	png: <FileImageOutlined />,
 	webp: <FileImageOutlined />,

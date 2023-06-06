@@ -36,11 +36,7 @@ export default function ConferenceView() {
 		<Table
 			dataSource={list}
 			rowKey={(meeting) => meeting.meetingId}
-			style={{
-				margin: "20px",
-				borderRadius: "10px",
-				overflow: "hidden",
-			}}
+			className='data-view'
 			loading={list.length == 0}
 			scroll={{ scrollToFirstRowOnChange: true, y: "60vh" }}
 		>

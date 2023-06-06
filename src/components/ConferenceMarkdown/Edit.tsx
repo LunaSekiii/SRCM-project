@@ -21,9 +21,10 @@ export default function Eidt({ content, meetingId }: Props) {
 		if (content) setText(content);
 	}, [content]);
 	const editorRef = useRef<ExposeParam>();
+	// 插入文件
 	const insertFileLink = (fileName: string, fileId: number) => {
 		editorRef.current?.insert(() => ({
-			targetValue: `\n[${fileName}](#/${fileId})\n`,
+			targetValue: `\n[${fileName}](#/file/info/${fileId})\n`,
 			select: false,
 			deviationStart: fileName.length + fileId.toString.length + 8,
 			deviationEnd: 0,

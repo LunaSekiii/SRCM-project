@@ -5,6 +5,12 @@
 	transform: translate(-50%, -50%);
 }
 
+.data-view {
+	margin: 20px;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
 @media screen and (max-width: 900px) {
 	.p-center {
 		position: relative;

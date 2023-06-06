@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card } from "antd";
 import FileView from "./FileView";
-import FileInfo from "./FileInfo";
+import FileSpaceInfo from "./FileSpaceInfo";
 import FileSpace from "./FileSpace";
 
 export default function File() {
@@ -18,7 +18,7 @@ export default function File() {
 			}}
 		>
 			<Card
-				title="文件目录"
+				title='文件目录'
 				bordered={false}
 				style={{
 					width: "50%",
@@ -38,7 +38,7 @@ export default function File() {
 				}}
 			>
 				<Card
-					title="文件详情"
+					title='文件详情'
 					bordered={false}
 					style={{
 						width: "100%",
@@ -46,10 +46,10 @@ export default function File() {
 						overflowX: "hidden",
 					}}
 				>
-					<FileInfo fileKey={currentFile} />
+					<FileSpaceInfo fileKey={currentFile} />
 				</Card>
 				<Card
-					title="储存空间"
+					title='储存空间'
 					bordered={false}
 					style={{
 						width: "100%",
