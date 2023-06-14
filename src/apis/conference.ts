@@ -27,8 +27,30 @@ export interface ConferenceInfo {
 	tag: number;
 }
 
-interface ConferenceRes {
+// 用户信息
+export interface UserInfo {
+	userId: number;
+	userInfoName: string;
+	studentId: number;
+	role: string;
+	grade: string;
+}
+
+// 会议文件信息
+export interface FileDTO {
+	fileId: number;
+	createTime: string;
+	fileName: string;
+	filePath: string;
+	meetId: number;
+	download: number;
+	fileSize: number;
+	userInfo: UserInfo;
+}
+
+export interface ConferenceRes {
 	meetingDTO: ConferenceInfo;
+	fileList: Array<FileDTO> | null;
 }
 
 export async function getConferenceDetail(meetingId: number) {

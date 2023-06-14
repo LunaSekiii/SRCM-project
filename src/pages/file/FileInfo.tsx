@@ -2,27 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Descriptions, Button } from "antd";
 import { getFileInfo, downladFile } from "@/apis/file";
+import type { FileDTO } from "@/apis/conference";
 import fileSizeFormat from "@/utils/fileSizeFormat";
 import saveFile from "@/utils/saveFile";
-
-interface UserInfo {
-	userId: number;
-	userInfoName: string;
-	studentId: number;
-	role: string;
-	grade: string;
-}
-
-interface FileDTO {
-	fileId: number;
-	createTime: string;
-	fileName: string;
-	filePath: string;
-	meetId: number;
-	download: number;
-	fileSize: number;
-	userInfo: UserInfo;
-}
+import FileIcon from "@/components/FileList/FileIcon";
+import dayjs from "dayjs";
 
 export default function FileInfo() {
 	const { id } = useParams();
@@ -46,7 +30,23 @@ export default function FileInfo() {
 			style={{ width: "calc(40vw + 150px)" }}
 		>
 			<Card>
-				<FileDescription fileInfo={fileInfo} />
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}
+				>
+					<FileDescription fileInfo={fileInfo} />
+					<FileIcon
+						type={
+							fileInfo.fileName.split(".")[
+								fileInfo.fileName.split(".").length - 1
+							]
+						}
+						huge
+					/>
+				</div>
 			</Card>
 		</div>
 	);
@@ -56,11 +56,12 @@ function FileDescription({ fileInfo }: { fileInfo: FileDTO }) {
 	const download = async () => {
 		const data = await downladFile(fileInfo.fileId);
 		console.log("data", data);
-		saveFile(data, fileInfo.fileName);
+		saveFile(data as Blob, fileInfo.fileName);
 	};
 	return (
 		<Descriptions
 			title='文件信息'
+			style={{ width: "100%" }}
 			bordered
 			column={{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }}
 		>
@@ -76,7 +77,7 @@ function FileDescription({ fileInfo }: { fileInfo: FileDTO }) {
 				#{fileInfo.fileId}
 			</Descriptions.Item>
 			<Descriptions.Item label='创建时间' span={2}>
-				{fileInfo.createTime}
+				{dayjs(fileInfo.createTime).format("YYYY年MM月DD日 HH:mm:ss")}
 			</Descriptions.Item>
 			<Descriptions.Item label='会议Id'>
 				{fileInfo.meetId}

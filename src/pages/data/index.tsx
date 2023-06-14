@@ -7,14 +7,12 @@ import TodoList from "./TodoList";
 import ProjectProgress from "./ProjectProgress ";
 
 import { home } from "@/apis/home";
-// import { login } from "@/apis/user";
 import { getConferenceList } from "@/apis/conference";
 
 export default function Data() {
 	getConferenceList(0).then((res) => {
 		console.log("res", res);
 	});
-	// login("guest", "123456");
 	home().then((res) => console.log("res", res));
 	return (
 		<>
@@ -33,11 +31,11 @@ export default function Data() {
 						overflowX: "auto",
 						display: "flex",
 						justifyContent: "space-around",
-						gap: "1rem",
+						gap: "10px",
 					}}
 				>
 					<Card
-						title="会议数量"
+						title='会议数量'
 						bordered={false}
 						style={{
 							width: 700,
@@ -48,7 +46,7 @@ export default function Data() {
 						<MeetingCount />
 					</Card>
 					<Card
-						title="访客量"
+						title='访客量'
 						style={{
 							width: 700,
 							minWidth: 600,
@@ -58,7 +56,7 @@ export default function Data() {
 						<VisitVolume />
 					</Card>
 					<Card
-						title="磁盘容量"
+						title='磁盘容量'
 						bordered={false}
 						style={{
 							width: 300,
@@ -77,11 +75,11 @@ export default function Data() {
 						overflowX: "auto",
 						display: "flex",
 						justifyContent: "space-around",
-						gap: "1rem",
+						gap: "10px",
 					}}
 				>
 					<Card
-						title="最近日程"
+						title='最近日程'
 						bordered={false}
 						style={{
 							width: 500,
@@ -93,7 +91,7 @@ export default function Data() {
 						<ConferenceTimeLine />
 					</Card>
 					<Card
-						title="待办清单"
+						title='待办清单'
 						bordered={false}
 						style={{
 							width: 600,
@@ -105,7 +103,7 @@ export default function Data() {
 						<TodoList />
 					</Card>
 					<Card
-						title="项目进度"
+						title='项目进度'
 						bordered={false}
 						style={{
 							width: 500,

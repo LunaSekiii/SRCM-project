@@ -38,9 +38,21 @@ const typeMap2Icon: { [type: string]: React.ReactNode } = {
 	webp: <FileImageOutlined />,
 };
 
-const FileIcon = memo(function FileIcon({ type }: { type: string }) {
+const FileIcon = memo(function FileIcon({
+	type,
+	huge = false,
+}: {
+	type: string;
+	huge?: boolean;
+}) {
 	return (
-		<div style={{ fontSize: "2rem", margin: "-1rem" }}>
+		<div
+			style={
+				huge
+					? { fontSize: "200px" }
+					: { fontSize: "2rem", margin: "-1rem" }
+			}
+		>
 			{typeMap2Icon[type] || typeMap2Icon["file"]}
 		</div>
 	);

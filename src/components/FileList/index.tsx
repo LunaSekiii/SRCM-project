@@ -154,8 +154,8 @@ const rowSelection = {
 
 export default function FileList() {
 	return (
-		<div>
-			<Divider />
+		<div className='data-view'>
+			{/* <Divider /> */}
 
 			<Table
 				rowSelection={{
@@ -165,7 +165,7 @@ export default function FileList() {
 				columns={columns}
 				dataSource={data}
 			/>
-			<FileUpload />
+			{/* <FileUpload /> */}
 		</div>
 	);
 }
