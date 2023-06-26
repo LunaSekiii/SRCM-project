@@ -37,11 +37,15 @@ export default function ConferenceView() {
 			dataSource={list}
 			rowKey={(meeting) => meeting.meetingId}
 			className='data-view'
-			loading={list.length == 0}
-			scroll={{ scrollToFirstRowOnChange: true, y: "60vh" }}
+			// loading={list.length == 0}
+			scroll={{
+				scrollToFirstRowOnChange: true,
+				// y: "90vh",
+				x: "max-content",
+			}}
+			pagination={false}
 		>
 			<Column title='会议名称' dataIndex='meetName' />
-			{/* <Column title="会议日期" dataIndex="beginTime" /> */}
 			<Column
 				title='开始日期'
 				render={(__, meeting: Meeting) => {
@@ -61,7 +65,12 @@ export default function ConferenceView() {
 			{/* <Column title='内容' dataIndex='content' /> */}
 			<Column title='地点' dataIndex='location' />
 			<Column title='主题' dataIndex='subject' />
-			<Column title='发表人' dataIndex='publisher' />
+			<Column
+				title='发表人'
+				dataIndex='publisher'
+				// TODO: 跳转
+				render={(publisher) => <div>{publisher.userInfoName}</div>}
+			/>
 			<Column
 				title='标签'
 				render={(__, meeting: Meeting) => {

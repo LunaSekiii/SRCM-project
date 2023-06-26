@@ -21,7 +21,8 @@ const props: UploadProps = {
 		return "local/file/upload";
 	},
 	data: () => {
-		return { meetingId: 1 };
+		// TODO:ididid
+		return { meetingId: 10 };
 	},
 	// customRequest: (f) => {
 	// 	console.log("f", f);
@@ -43,8 +44,10 @@ const props: UploadProps = {
 	},
 };
 
+// 复写组件参数
 function callbackProps(
-	afterUpload: ((files: Array<any>) => void) | undefined
+	afterUpload: ((files: Array<any>) => void) | undefined,
+	meetingId?: number
 ): UploadProps {
 	const onChange = (info: any) => {
 		const { status } = info.file;
@@ -62,7 +65,10 @@ function callbackProps(
 		}
 		console.log("uploadFileIds", uploadFileIds(info.fileList));
 	};
-	return { ...props, onChange };
+	const data = () => {
+		return { meetingId };
+	};
+	return { ...props, onChange, data };
 }
 
 const uploadFileIds = (flieList: Array<any>) => {
@@ -74,11 +80,13 @@ const uploadFileIds = (flieList: Array<any>) => {
 
 export default function FileUpload({
 	afterUpload,
+	meetingId = 1,
 }: {
 	afterUpload?: (files: Array<any>) => void;
+	meetingId?: number;
 }) {
 	return (
-		<Dragger {...callbackProps(afterUpload)}>
+		<Dragger {...callbackProps(afterUpload, meetingId)}>
 			<p className='ant-upload-drag-icon'>
 				<InboxOutlined />
 			</p>

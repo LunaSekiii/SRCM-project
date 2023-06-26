@@ -1,7 +1,10 @@
 import ConferenceEdit from "./edit";
-
-const a: "sdsd" | "sdsds" = "sdsd";
+import CenterCard from "@/layouts/CenterCard";
 
 export default function ConferenceCreate() {
-	return <ConferenceEdit />;
+	return (
+		<CenterCard>
+			<ConferenceEdit />
+		</CenterCard>
+	);
 }

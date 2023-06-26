@@ -7,8 +7,13 @@ import ConferenceInfo from "@/pages/conference/info";
 import File from "@/pages/file";
 import FileInfo from "@/pages/file/FileInfo";
 import FileGroup from "@/pages/file/group";
-import UserView from "@/pages/user/view";
+
+import SelfFile from "@/pages/file/self";
+import UserFile from "@/pages/file/user";
+
+import User from "@/pages/user";
 import UserCreate from "@/pages/user/create";
+import UserChenge4admin from "@/pages/user/chenge4admin";
 import ProjectView from "@/pages/project/view";
 import ProjectCreate from "@/pages/project/create";
 import Login from "@/pages/login";
@@ -44,16 +49,18 @@ const routes: RouteObject[] = [
 			{
 				path: "file",
 				children: [
-					{ path: "self", element: <File /> },
+					{ path: "self", element: <SelfFile /> },
+					{ path: "user/:id", element: <UserFile /> },
 					{ path: "info/:id", element: <FileInfo /> },
-					{ path: "group", element: <FileGroup /> },
+					// { path: "group", element: <FileGroup /> },
 				],
 			},
 			{
 				path: "user",
 				children: [
-					{ path: "view", element: <UserView /> },
+					{ path: "view", element: <User /> },
 					{ path: "create", element: <UserCreate /> },
+					{ path: "change/:id", element: <UserChenge4admin /> },
 				],
 			},
 			{

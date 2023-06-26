@@ -29,6 +29,12 @@ interface XResponse<T> {
 	result: T;
 }
 
+const key = "fetch";
+const getMessageParams = (content: string) => ({
+	key,
+	content,
+});
+
 /**
  * fetch封装
  */
@@ -44,11 +50,11 @@ const xf = (path = "", option?: RequestInit) => {
 						const json = await res.json();
 						const msg = json.status.msg;
 						if (msg === "无权限:请登录") {
-							message.error("未登录");
-						} else message.error(json.status.msg);
+							message.error(getMessageParams("未登录"));
+						} else message.error(getMessageParams(json.status.msg));
 					} catch (error) {
-						message.error("网络异常", 5);
-						console.error(error);
+						message.error(getMessageParams("网络异常"));
+						console.error(getMessageParams(error as string));
 					}
 				} else
 					res.json().then((json) => {
@@ -56,8 +62,8 @@ const xf = (path = "", option?: RequestInit) => {
 					});
 			})
 			.catch((error) => {
-				message.error("网络错误", 5);
-				console.error(error);
+				message.error(getMessageParams("网络错误"));
+				console.error(getMessageParams(error));
 			});
 	});
 };
@@ -77,11 +83,11 @@ export const df = (path = "", option?: RequestInit) => {
 						const json = await res.json();
 						const msg = json.status.msg;
 						if (msg === "无权限:请登录") {
-							message.error("未登录");
-						} else message.error(json.status.msg);
+							message.error(getMessageParams("未登录"));
+						} else message.error(getMessageParams(json.status.msg));
 					} catch (error) {
-						message.error("网络异常", 5);
-						console.error(error);
+						message.error(getMessageParams("网络异常"));
+						console.error(getMessageParams(error as string));
 					}
 				} else
 					res.blob().then((blob) => {
@@ -89,8 +95,8 @@ export const df = (path = "", option?: RequestInit) => {
 					});
 			})
 			.catch((error) => {
-				message.error("网络错误", 5);
-				console.error(error);
+				message.error(getMessageParams("网络错误"));
+				console.error(getMessageParams(error));
 			});
 	});
 };

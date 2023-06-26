@@ -15,3 +15,7 @@ export function getFileInfo(id: number) {
 export function downladFile(id: number) {
 	return df("/file/download?fileId=" + id);
 }
+
+export function deleteFile(id: number) {
+	return df("file/del/" + id);
+}

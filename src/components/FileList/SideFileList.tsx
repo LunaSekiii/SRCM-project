@@ -1,9 +1,14 @@
-import React from "react";
-import { Table, Button, Space } from "antd";
+import { useEffect, useState, useCallback } from "react";
+import { Table, Button, Space, Popconfirm, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { FileAddOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import {
+	FileAddOutlined,
+	DeleteOutlined,
+	QuestionCircleOutlined,
+} from "@ant-design/icons";
+import useEvents from "@/stores/useEvents";
 import type { FileDTO } from "@/apis/conference";
+import { deleteFile } from "@/apis/file";
 
 const columns: ColumnsType<FileDTO> = [
 	{
@@ -16,12 +21,53 @@ const columns: ColumnsType<FileDTO> = [
 		title: "插入与删除",
 		dataIndex: "fileId",
 		align: "center",
-		render: (id: number) => <FileActives />,
+		render: (__, file: FileDTO) => <FileActives file={file} />,
 		width: "40%",
 	},
 ];
 
 export default function SideFileList({ data }: { data: Array<FileDTO> }) {
+	const [fileData, setFileData] = useState(data);
+	const subsEvent = useEvents((state) => state.subscribe);
+	const unSubsEvent = useEvents((state) => state.unSubscribe);
+	// 新增文件事件
+	const addFile = useCallback(
+		(file: FileDTO) => {
+			setFileData((d) => [...d, file]);
+		},
+		[setFileData]
+	);
+	useEffect(() => {
+		subsEvent("uploadFile", addFile);
+		return () => {
+			unSubsEvent("uploadFile", addFile);
+		};
+	}, [addFile]);
+	// 删除文件事件
+	const deleteFile = useCallback(
+		(file: FileDTO) => {
+			// console.log("test", file);
+			let fileList = [...fileData];
+			let fileKey;
+			for (fileKey in fileList) {
+				if (fileList[fileKey].fileId == file.fileId) {
+					delete fileList[fileKey];
+				}
+			}
+			setFileData(() => fileList);
+		},
+		[setFileData]
+	);
+	useEffect(() => {
+		subsEvent("deleteFile", deleteFile);
+		return () => {
+			unSubsEvent("deleteFile", deleteFile);
+		};
+	}, [deleteFile]);
+
+	useEffect(() => {
+		setFileData(data);
+	}, [data]);
 	return (
 		<div
 			className='data-view'
@@ -42,13 +88,17 @@ export default function SideFileList({ data }: { data: Array<FileDTO> }) {
 				}}
 				rowKey='fileId'
 				columns={columns}
-				dataSource={data}
+				dataSource={fileData}
 			/>
 		</div>
 	);
 }
 
-function FileActives() {
+function FileActives({ file }: { file: FileDTO }) {
+	const pubEvent = useEvents((state) => state.publish);
+	const insertFileTag = () => {
+		pubEvent("insertFileTag", [file]);
+	};
 	return (
 		<Space>
 			<Button
@@ -56,12 +106,41 @@ function FileActives() {
 				shape='circle'
 				size='large'
 				title='插入文件标签'
+				onClick={insertFileTag}
 			>
 				<FileAddOutlined />
 			</Button>
-			<Button type='primary' shape='circle' size='large' title='删除文件'>
-				<DeleteOutlined />
-			</Button>
+
+			<Popconfirm
+				title='删除文件？'
+				description='文件删除后将不能访问'
+				icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+				okText='确认'
+				cancelText='取消'
+				// TODO: 文件删除时删除文档中的引用
+				onConfirm={async () => {
+					const res = await deleteFile(file.fileId);
+					if (res) {
+						message.success("删除成功");
+						pubEvent("deleteFile", [file]);
+						return true;
+					} else {
+						message.error("删除失败");
+						return false;
+					}
+				}}
+			>
+				<Button
+					type='primary'
+					shape='circle'
+					danger
+					size='large'
+					title='删除文件'
+					// onClick={deleteFile}
+				>
+					<DeleteOutlined />
+				</Button>
+			</Popconfirm>
 		</Space>
 	);
 }

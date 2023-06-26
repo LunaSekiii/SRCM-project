@@ -14,7 +14,7 @@ export default function MeetingCount() {
 
 	const config = {
 		data,
-		height: 300,
+		// height: 300,
 		xField: "date",
 		yField: "会议数/周",
 		point: {

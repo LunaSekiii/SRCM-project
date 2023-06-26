@@ -1,4 +1,5 @@
 import Edit from "./Edit";
+import MarkdownPreview from "./MarkdownPreview";
 import "md-editor-rt/lib/style.css";
 
 interface Props {
@@ -12,7 +13,8 @@ export default function ConferenceMarkdown({
 	content,
 	meetingId,
 }: Props) {
-	if (isPreview) return <></>;
+	if (isPreview)
+		return <MarkdownPreview content={content} meetingId={meetingId!} />;
 	return (
 		<>
 			<Edit content={content} meetingId={meetingId} />

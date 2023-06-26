@@ -4,6 +4,8 @@ import FileView from "./FileView";
 import FileSpaceInfo from "./FileSpaceInfo";
 import FileSpace from "./FileSpace";
 
+import useLogin from "@/stores/useLogin";
+
 export default function File() {
 	const [currentFile, setCurrentFile] = useState("0-0");
 	const selectFile = (key: string) => setCurrentFile(key);

@@ -2,18 +2,21 @@ import { useState } from "react";
 import { DropdownToolbar } from "md-editor-rt";
 import { UploadOutlined } from "@ant-design/icons";
 import FileUpload from "../FileUpload";
+import type { FileDTO } from "@/apis/conference";
 
 export default function UploadFileTool({
 	insertFileLink,
+	meetingId,
 }: {
-	insertFileLink: (fileName: string, fileId: number) => void;
+	insertFileLink: (file: FileDTO) => void;
+	meetingId?: number;
 }) {
 	const [visible, setVisible] = useState(false);
 	const [isClick, setIsClick] = useState(false);
 	const afterUpload = (files: Array<any>) => {
 		const newFile = files[files.length - 1];
 		if (!newFile) return;
-		insertFileLink(newFile.fileName, newFile.fileId);
+		insertFileLink(newFile);
 		console.log("newFile", newFile);
 	};
 	return (
@@ -37,7 +40,12 @@ export default function UploadFileTool({
 						<UploadOutlined style={{ verticalAlign: "middle" }} />
 					</span>
 				}
-				overlay={<FileUpload afterUpload={afterUpload} />}
+				overlay={
+					<FileUpload
+						afterUpload={afterUpload}
+						meetingId={meetingId}
+					/>
+				}
 			/>
 		</span>
 	);

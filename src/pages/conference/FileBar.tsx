@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SideFileList from "@/components/FileList/SideFileList";
 import { Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import type { FileDTO } from "@/apis/conference";
+import useEvents from "@/stores/useEvents";
 
 const defaultWidth = "calc(20vw + 150px)";
 
@@ -15,10 +16,20 @@ export default function FileBar({ fileList }: { fileList: Array<FileDTO> }) {
 		else setWidth("0px");
 	};
 
-	const fileBarSwitch = () => {
+	const fileBarSwitch = useCallback(() => {
 		fileBarVisibleHandle(!visible);
 		setVisible((v) => !v);
-	};
+	}, [fileBarVisibleHandle]);
+
+	const subEvent = useEvents((state) => state.subscribe);
+	const unSubEvent = useEvents((state) => state.unSubscribe);
+
+	useEffect(() => {
+		subEvent("switchFileBar", fileBarSwitch);
+		return () => {
+			unSubEvent("switchFileBar", fileBarSwitch);
+		};
+	}, [fileBarSwitch]);
 
 	return (
 		<div

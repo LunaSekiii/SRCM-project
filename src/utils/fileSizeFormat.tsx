@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 // 将文件大小（Byte）转化成带单位的字符串
-const units = ["Byte", "Kb", "Mb", "Gb", "Tb"];
+const units = ["Byte", "KB", "MB", "GB", "TB"];
 export default function fileSizeFormat(size: number): ReactNode {
 	let s: number = size;
 	let u: number = 0;
@@ -22,7 +22,7 @@ export default function fileSizeFormat(size: number): ReactNode {
 				{s.toFixed(2)}
 				<span
 					style={{
-						fontSize: "1.2rem",
+						fontSize: "1rem",
 						fontWeight: "600",
 						verticalAlign: "bottom",
 					}}

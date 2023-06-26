@@ -72,7 +72,6 @@ const useEvents = create<PubSubStore>((set, get) => ({
 			next = next?.next || null;
 		}
 		console.log("firstEvent", firstEvent);
-		window.ss = firstEvent;
 		if (!firstEvent) {
 			delete events[mes];
 		} else events[mes] = firstEvent;

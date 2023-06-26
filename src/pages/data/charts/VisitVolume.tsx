@@ -30,7 +30,7 @@ export default function VisitVolume() {
 	];
 	const config = {
 		data: [data, data],
-		height: 300,
+		// height: 300,
 		xField: "time",
 		yField: ["访客量", "新用户量"],
 		geometryOptions: [

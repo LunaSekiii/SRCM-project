@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { NormalToolbar } from "md-editor-rt";
-import { FolderOpenOutlined } from "@ant-design/icons";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import useEvents from "@/stores/useEvents";
 
-export default function FileListTool() {
+export default function MeetingInfoTool() {
 	const pubEvent = useEvents((state) => state.publish);
 	return (
 		<NormalToolbar
-			title='文件列表'
+			title='会议信息'
 			onClick={() => {
-				pubEvent("switchFileBar", []);
+				pubEvent("conferenceModalSwitch", []);
 			}}
 			trigger={
 				<span className='md-editor-icon' style={{ lineHeight: "100%" }}>
-					<FolderOpenOutlined style={{ verticalAlign: "middle" }} />
+					<UnorderedListOutlined
+						style={{ verticalAlign: "middle" }}
+					/>
 				</span>
 			}
 		/>

@@ -7,13 +7,18 @@ import TodoList from "./TodoList";
 import ProjectProgress from "./ProjectProgress ";
 
 import { home } from "@/apis/home";
-import { getConferenceList } from "@/apis/conference";
+import { useState, useEffect } from "react";
+import type { HomeData } from "@/stores/useLogin";
 
 export default function Data() {
-	getConferenceList(0).then((res) => {
-		console.log("res", res);
-	});
-	home().then((res) => console.log("res", res));
+	const [data, steData] = useState<HomeData>();
+	useEffect(() => {
+		home().then((res) => {
+			console.log("reshome", res);
+			steData(res as HomeData);
+		});
+	}, []);
+
 	return (
 		<>
 			<div
@@ -22,6 +27,8 @@ export default function Data() {
 					display: "flex",
 					flexDirection: "column",
 					justifyContent: "center",
+					alignContent: "space-around",
+					overflowY: "hidden",
 				}}
 			>
 				<div
@@ -30,16 +37,18 @@ export default function Data() {
 						width: "100%",
 						overflowX: "auto",
 						display: "flex",
-						justifyContent: "space-around",
+						// justifyContent: "space-around",
 						gap: "10px",
+						overflowY: "hidden",
 					}}
 				>
 					<Card
 						title='会议数量'
 						bordered={false}
 						style={{
-							width: 700,
+							width: "35vw",
 							minWidth: 600,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>
@@ -48,8 +57,9 @@ export default function Data() {
 					<Card
 						title='访客量'
 						style={{
-							width: 700,
+							width: "35vw",
 							minWidth: 600,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>
@@ -59,8 +69,9 @@ export default function Data() {
 						title='磁盘容量'
 						bordered={false}
 						style={{
-							width: 300,
+							width: "25vw",
 							minWidth: 300,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>
@@ -74,29 +85,30 @@ export default function Data() {
 						width: "100%",
 						overflowX: "auto",
 						display: "flex",
-						justifyContent: "space-around",
+						// justifyContent: "space-around",
 						gap: "10px",
+						overflowY: "hidden",
 					}}
 				>
 					<Card
 						title='最近日程'
 						bordered={false}
 						style={{
-							width: 500,
+							width: "35vw",
 							minWidth: 400,
-							height: 600,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>
-						<ConferenceTimeLine />
+						<ConferenceTimeLine conferences={data?.meetingList} />
 					</Card>
 					<Card
 						title='待办清单'
 						bordered={false}
 						style={{
-							width: 600,
+							width: "35vw",
 							minWidth: 500,
-							height: 600,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>
@@ -106,9 +118,9 @@ export default function Data() {
 						title='项目进度'
 						bordered={false}
 						style={{
-							width: 500,
+							width: "35vw",
 							minWidth: 400,
-							height: 600,
+							height: "45vh",
 							overflowX: "hidden",
 						}}
 					>

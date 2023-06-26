@@ -2,7 +2,7 @@ import { Liquid } from "@ant-design/plots";
 
 export default function DiskCapacity() {
 	const config = {
-		height: 300,
+		// height: 300,
 		percent: 0.55,
 
 		outline: {

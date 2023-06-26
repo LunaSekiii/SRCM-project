@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import { Card, Descriptions, Button } from "antd";
 import { getFileInfo, downladFile } from "@/apis/file";
 import type { FileDTO } from "@/apis/conference";
-import fileSizeFormat from "@/utils/fileSizeFormat";
+import FileSizeFormat from "@/utils/fileSizeFormat";
 import saveFile from "@/utils/saveFile";
 import FileIcon from "@/components/FileList/FileIcon";
 import dayjs from "dayjs";
 
+/**
+ * 文件详细信息（下载界面）
+ */
 export default function FileInfo() {
 	const { id } = useParams();
 	const [fileInfo, setFileInfo] = useState<FileDTO>();
@@ -89,7 +92,7 @@ function FileDescription({ fileInfo }: { fileInfo: FileDTO }) {
 				{fileInfo.userInfo?.userInfoName || "无"}
 			</Descriptions.Item>
 			<Descriptions.Item label='文件大小'>
-				{fileSizeFormat(fileInfo.fileSize)}
+				{FileSizeFormat(fileInfo.fileSize)}
 			</Descriptions.Item>
 			<Descriptions.Item label='下载'>
 				<Button type='primary' onClick={download}>

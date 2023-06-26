@@ -22,7 +22,7 @@ export interface ConferenceInfo {
 	location: string;
 	meetName: string;
 	meetingId: number;
-	publisher: string | null;
+	publisher: UserInfo;
 	subject: string;
 	tag: number;
 }
@@ -32,7 +32,7 @@ export interface UserInfo {
 	userId: number;
 	userInfoName: string;
 	studentId: number;
-	role: string;
+	role: { roleId: 0 | 1 | 2; roleName: string };
 	grade: string;
 }
 
@@ -48,9 +48,11 @@ export interface FileDTO {
 	userInfo: UserInfo;
 }
 
+export type FileList = Array<FileDTO> | [];
+
 export interface ConferenceRes {
 	meetingDTO: ConferenceInfo;
-	fileList: Array<FileDTO> | null;
+	fileList: FileList;
 }
 
 export async function getConferenceDetail(meetingId: number) {

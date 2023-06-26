@@ -1,27 +1,44 @@
+import { useState, useEffect } from "react";
 import { Timeline } from "antd";
+import { HomeData } from ".";
+import "dayjs";
+import dayjs from "dayjs";
+import type { TimeLineItemProps } from "antd/es/timeline/TimelineItem";
+import { valueType } from "antd/es/statistic/utils";
 
-const items = [
-	{
-		label: "2015-09-01",
-		children: "大二组会",
-		color: "gray",
-	},
-	{
-		label: "2015-09-01 09:12:11",
-		children: "大三组会",
-		color: "green",
-	},
-	{
-		children: "毕设",
-		color: "blue",
-	},
-	{
-		label: "2015-09-01 09:12:11",
-		children: "成果展示",
-		color: "blue",
-	},
-];
-
-export default function ConferenceTimeLine() {
-	return <Timeline mode="left" items={items} />;
+export default function ConferenceTimeLine({
+	conferences,
+}: {
+	conferences: HomeData["meetingList"] | undefined;
+}) {
+	const [meetingList, setMeetingList] = useState<TimeLineItemProps[]>();
+	const formatConference = (
+		conference: HomeData["meetingList"]["list"][number]
+	) => {
+		let item = {
+			label: dayjs(conference.beginTime).format("YYYY-MM-DD HH:mm:ss"),
+			children: conference.meetName,
+			color: dayjs().isBefore(dayjs(conference.beginTime))
+				? "blue"
+				: dayjs().isBefore(dayjs(conference.endTime))
+				? "green"
+				: "gray" || "gray",
+		};
+		console.log("item", item);
+		return item as TimeLineItemProps;
+	};
+	useEffect(() => {
+		if (conferences) {
+			setMeetingList(
+				conferences.list.map((conference) => {
+					// console.log(
+					// 	"conference",
+					// 	dayjs(conference.beginTime).format("YYYY-MM-DD HH:mm:ss")
+					// );
+					return formatConference(conference);
+				})
+			);
+		}
+	}, [conferences]);
+	return <Timeline mode='left' items={meetingList} />;
 }

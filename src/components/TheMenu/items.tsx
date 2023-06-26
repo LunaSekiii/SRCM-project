@@ -41,23 +41,23 @@ const items: MenuProps["items"] = [
 	// 文件
 	getItem("文件管理", "file", <FolderOutlined />, [
 		getItem("我的文件", getNestedKey("file", "self")),
-		getItem("小组文件", getNestedKey("file", "group")),
-		getItem("项目文件", getNestedKey("file", "project"), null, [
-			getItem("项目1", getNestedKey(getNestedKey("file", "self"), "1")),
-			getItem("项目2", getNestedKey(getNestedKey("file", "self"), "2")),
-		]),
+		// getItem("小组文件", getNestedKey("file", "group")),
+		// getItem("项目文件", getNestedKey("file", "project"), null, [
+		// 	getItem("项目1", getNestedKey(getNestedKey("file", "self"), "1")),
+		// 	getItem("项目2", getNestedKey(getNestedKey("file", "self"), "2")),
+		// ]),
 	]),
 	// 用户
 	getItem("用户设置", "user", <TeamOutlined />, [
 		getItem("用户列表", getNestedKey("user", "view")),
 		getItem("创建用户", getNestedKey("user", "create")),
-		getItem("用户分组", getNestedKey("user", "group")),
+		// getItem("用户分组", getNestedKey("user", "group")),
 	]),
-	// 项目
-	getItem("项目管理", "project", <ProjectOutlined />, [
-		getItem("我的项目", getNestedKey("project", "self")),
-		getItem("创建项目", getNestedKey("project", "create")),
-	]),
+	// // 项目
+	// getItem("项目管理", "project", <ProjectOutlined />, [
+	// 	getItem("我的项目", getNestedKey("project", "self")),
+	// 	getItem("创建项目", getNestedKey("project", "create")),
+	// ]),
 	// { type: "divider" },
 ];
 

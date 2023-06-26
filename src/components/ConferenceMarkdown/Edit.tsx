@@ -1,12 +1,15 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { MdEditor, ToolbarNames, ExposeParam } from "md-editor-rt";
 
 import markdownModal from "./markdownModal";
 import { message } from "antd";
 import UploadFileTool from "./UploadFileTool";
 import FileListTool from "./FileListTool";
+import MeetingInfoTool from "./MeetingInfoTool copy";
 import { saveConferenceContent } from "@/apis/conference";
 import { uploadImg } from "@/apis/file";
+import type { FileDTO } from "@/apis/conference";
+import useEvents from "@/stores/useEvents";
 
 interface Props {
 	content?: string;
@@ -14,6 +17,10 @@ interface Props {
 }
 
 export default function Eidt({ content, meetingId }: Props) {
+	const pubEvent = useEvents((state) => state.publish);
+	const subEvent = useEvents((state) => state.subscribe);
+	const unSubEvent = useEvents((state) => state.unSubscribe);
+
 	const [text, setText] = useState<string>(
 		meetingId ? (content as string) : markdownModal.conferenceDefault
 	);
@@ -21,15 +28,36 @@ export default function Eidt({ content, meetingId }: Props) {
 		if (content) setText(content);
 	}, [content]);
 	const editorRef = useRef<ExposeParam>();
-	// 插入文件
-	const insertFileLink = (fileName: string, fileId: number) => {
-		editorRef.current?.insert(() => ({
-			targetValue: `\n[${fileName}](#/file/info/${fileId})\n`,
-			select: false,
-			deviationStart: fileName.length + fileId.toString.length + 8,
-			deviationEnd: 0,
-		}));
+
+	// 新增文件、插入文件链接事件
+	const insertFileLink = (file: FileDTO) => {
+		// 发布新增文件事件
+		pubEvent("uploadFile", [file]);
+		insertFileTag(file);
 	};
+
+	// 插入文件链接
+	const insertFileTag = useCallback(
+		(file: FileDTO) => {
+			const fileName = file.fileName;
+			const fileId = file.fileId;
+			editorRef.current?.insert(() => ({
+				targetValue: `\n[${fileName}](#/file/info/${fileId})\n`,
+				select: false,
+				deviationStart: fileName.length + fileId.toString.length + 8,
+				deviationEnd: 0,
+			}));
+		},
+		[editorRef]
+	);
+
+	useEffect(() => {
+		subEvent("insertFileTag", insertFileTag);
+		return () => {
+			unSubEvent("insertFileTag", insertFileTag);
+		};
+	}, [insertFileTag]);
+
 	// 编辑器保存事件
 	const messageKey = "saveContent";
 	const onSave = (content: string) => {
@@ -80,15 +108,20 @@ export default function Eidt({ content, meetingId }: Props) {
 			defToolbars={[
 				<UploadFileTool
 					insertFileLink={insertFileLink}
+					meetingId={meetingId}
 					key='uploadFile'
 				/>,
 				<FileListTool key='fileList' />,
+				<MeetingInfoTool key='meetingInfo' />,
 			]}
 		/>
 	);
 }
 
 const toolBars: ToolbarNames[] = [
+	2,
+	1,
+	"-",
 	"bold",
 	"underline",
 	"italic",
@@ -110,8 +143,6 @@ const toolBars: ToolbarNames[] = [
 	"-",
 	"image",
 	0,
-	"-",
-	1,
 	"-",
 	"revoke",
 	"next",
