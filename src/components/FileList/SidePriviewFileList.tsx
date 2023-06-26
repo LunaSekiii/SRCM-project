@@ -16,17 +16,32 @@ const columns: ColumnsType<FileDTO> = [
 		dataIndex: "fileName",
 		width: "60%",
 	},
-
 	{
-		title: "插入与删除",
-		dataIndex: "fileId",
-		align: "center",
-		render: (__, file: FileDTO) => <FileActives file={file} />,
-		width: "40%",
+		title: "上传者",
+		dataIndex: "userInfo",
+		render: (userInfo: FileDTO["userInfo"]) => (
+			<div>{userInfo.userInfoName}</div>
+		),
 	},
+	// {
+	// 	title: "上传时间",
+	// 	dataIndex: "createTime",
+	// 	render: (createTime: FileDTO["createTime"]) => <div>{createTime}</div>,
+	// },
+	// {
+	// 	title: "插入与删除",
+	// 	dataIndex: "fileId",
+	// 	align: "center",
+	// 	render: (__, file: FileDTO) => <FileActives file={file} />,
+	// 	width: "40%",
+	// },
 ];
 
-export default function SideFileList({ data }: { data: Array<FileDTO> }) {
+export default function SidePreviewFileList({
+	data,
+}: {
+	data: Array<FileDTO>;
+}) {
 	const [fileData, setFileData] = useState(data);
 	const subsEvent = useEvents((state) => state.subscribe);
 	const unSubsEvent = useEvents((state) => state.unSubscribe);
@@ -74,6 +89,7 @@ export default function SideFileList({ data }: { data: Array<FileDTO> }) {
 			style={{
 				margin: 0,
 				width: "100%",
+				height: "85%",
 			}}
 		>
 			{/* <Divider /> */}

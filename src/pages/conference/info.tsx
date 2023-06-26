@@ -10,6 +10,7 @@ import FileBar from "./FileBar";
 import { Modal } from "antd";
 import useLogin from "@/stores/useLogin";
 import useEvents from "@/stores/useEvents";
+import ConferencePreviewInfo from "./previewInfo";
 
 import ConferenceMarkdown from "@/components/ConferenceMarkdown";
 
@@ -20,7 +21,7 @@ export default function ConferenceInfo() {
 	const [fileList, setFileList] = useState<Array<FileDTO>>();
 	const myInfo = useLogin((state) => state.userInfo);
 	// 模态框
-	const [idModalOpen, setIsModalOpen] = useState(true);
+	const [idModalOpen, setIsModalOpen] = useState(false);
 	const pubEvents = useEvents((state) => state.publish);
 	const subEvents = useEvents((state) => state.subscribe);
 	const unSubEvents = useEvents((state) => state.unSubscribe);
@@ -32,7 +33,7 @@ export default function ConferenceInfo() {
 		return () => {
 			unSubEvents("conferenceModalSwitch", modalSwitch);
 		};
-	}, [modalSwitch]);
+	}, [modalSwitch, subEvents, unSubEvents]);
 
 	useEffect(() => {
 		getConferenceDetail(conferenceId as number).then((res) => {
@@ -46,13 +47,7 @@ export default function ConferenceInfo() {
 	}, [conferenceId]);
 	if (!conferenceInfo) return null;
 	if (myInfo?.userId != conferenceInfo.publisher?.userId) {
-		return (
-			<ConferenceMarkdown
-				isPreview
-				content={conferenceInfo?.content}
-				meetingId={conferenceId}
-			/>
-		);
+		return <ConferencePreviewInfo conferenceId={conferenceId} />;
 	}
 
 	return (

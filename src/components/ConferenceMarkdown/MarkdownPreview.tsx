@@ -30,15 +30,15 @@ export default function MarkdownPreview({
 			}}
 			ref={preview}
 		>
+			<MdCatalog
+				style={{ minWidth: "100px", background: "#f9f9f9" }}
+				editorId={id}
+				scrollElement={preview.current as HTMLElement}
+			/>
 			<MdPreview
 				// style={{ width: "80%" }}
 				editorId={id}
 				modelValue={text}
-			/>
-			<MdCatalog
-				style={{ minWidth: "100px" }}
-				editorId={id}
-				scrollElement={preview.current as HTMLElement}
 			/>
 		</div>
 	);

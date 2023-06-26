@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { join } from "path";
+import projeceConfig from "./src/projectConfig";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +16,7 @@ export default defineConfig({
 		// host: "0.0.0.0",
 		proxy: {
 			"/local": {
-				target: "http://10.60.102.53:8080",
+				target: projeceConfig.server_ip,
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/local/, ""),
 			},

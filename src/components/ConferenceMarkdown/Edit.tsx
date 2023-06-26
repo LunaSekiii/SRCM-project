@@ -10,6 +10,7 @@ import { saveConferenceContent } from "@/apis/conference";
 import { uploadImg } from "@/apis/file";
 import type { FileDTO } from "@/apis/conference";
 import useEvents from "@/stores/useEvents";
+import projectConfig from "@/projectConfig";
 
 interface Props {
 	content?: string;
@@ -82,14 +83,14 @@ export default function Eidt({ content, meetingId }: Props) {
 		message.loading({ key: "imageUpload", content: "图片上传中..." });
 		const resA = await Promise.all(
 			files.map((file) => {
-				let fd = new FormData();
+				const fd = new FormData();
 				fd.append("image", file);
 				return uploadImg(fd) as Promise<{ imagePath: string }>;
 			})
 		);
 		console.log("图片上传", resA);
 		message.success({ key: "imageUpload", content: "图片上传成功" });
-		callback(resA.map((res) => "http://10.60.102.53:8080" + res.imagePath));
+		callback(resA.map((res) => projectConfig.server_ip + res.imagePath));
 	};
 
 	return (
