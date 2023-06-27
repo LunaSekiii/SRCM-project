@@ -7,7 +7,7 @@ import {
 	QuestionCircleOutlined,
 } from "@ant-design/icons";
 import useEvents from "@/stores/useEvents";
-import type { FileDTO } from "@/apis/conference";
+import { getConferenceDetail, FileDTO } from "@/apis/conference";
 import { deleteFile } from "@/apis/file";
 
 const columns: ColumnsType<FileDTO> = [
@@ -26,7 +26,13 @@ const columns: ColumnsType<FileDTO> = [
 	},
 ];
 
-export default function SideFileList({ data }: { data: Array<FileDTO> }) {
+export default function SideFileList({
+	data,
+	meetingId,
+}: {
+	data: Array<FileDTO>;
+	meetingId: number;
+}) {
 	const [fileData, setFileData] = useState(data);
 	const subsEvent = useEvents((state) => state.subscribe);
 	const unSubsEvent = useEvents((state) => state.unSubscribe);
@@ -43,6 +49,17 @@ export default function SideFileList({ data }: { data: Array<FileDTO> }) {
 			unSubsEvent("uploadFile", addFile);
 		};
 	}, [addFile]);
+	// 自动更新文件
+	const updateFileList = async () => {
+		const { fileList } = await getConferenceDetail(meetingId);
+		setFileData(fileList);
+	};
+	useEffect(() => {
+		const timer = setInterval(updateFileList, 5000);
+		return () => {
+			clearInterval(timer);
+		};
+	}, []);
 	// 删除文件事件
 	const deleteFile = useCallback(
 		(file: FileDTO) => {

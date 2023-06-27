@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { MdEditor, ToolbarNames, ExposeParam } from "md-editor-rt";
 
 import markdownModal from "./markdownModal";
-import { message } from "antd";
+import { Modal, message } from "antd";
 import UploadFileTool from "./UploadFileTool";
 import FileListTool from "./FileListTool";
 import MeetingInfoTool from "./MeetingInfoTool copy";
@@ -11,6 +11,11 @@ import { uploadImg } from "@/apis/file";
 import type { FileDTO } from "@/apis/conference";
 import useEvents from "@/stores/useEvents";
 import projectConfig from "@/projectConfig";
+
+import {
+	unstable_usePrompt as usePrompt,
+	unstable_Blocker as useBlocker,
+} from "react-router-dom";
 
 interface Props {
 	content?: string;
@@ -73,6 +78,12 @@ export default function Eidt({ content, meetingId }: Props) {
 				message.error({ key: messageKey, content: "保存失败，请重试" });
 			});
 	};
+
+	// 退出时保存
+	usePrompt({
+		message: "确定要离开页面吗，未保存的记录讲会丢失",
+		when: true,
+	});
 
 	// 上传图片
 	type UploadImg = (

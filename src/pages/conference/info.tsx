@@ -90,7 +90,7 @@ export default function ConferenceInfo() {
 				content={conferenceInfo?.content}
 				meetingId={conferenceId}
 			/>
-			<FileBar fileList={fileList!} />
+			<FileBar fileList={fileList!} meetingId={conferenceId} />
 		</div>
 	);
 }

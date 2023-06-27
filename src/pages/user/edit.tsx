@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
-import { Button, Select, Form, Input, Radio, message } from "antd";
-import { saveUser, UserInfo4Admin } from "@/apis/user";
+import {
+	Button,
+	Select,
+	Form,
+	Input,
+	Radio,
+	message,
+	Space,
+	Modal,
+} from "antd";
+import { saveUser, UserInfo4Admin, deleteUser } from "@/apis/user";
 import dayjs from "dayjs";
 import { UserInfo } from "@/apis/conference";
 import { useNavigate } from "react-router-dom";
+import useUsers from "@/stores/useUsers";
 
 export default function UserEdit({ userInfo }: { userInfo?: UserInfo }) {
 	const [gradeList] = useState(
@@ -20,6 +30,7 @@ export default function UserEdit({ userInfo }: { userInfo?: UserInfo }) {
 
 	const navigate = useNavigate();
 	const key = "submitUser";
+	const getUserList = useUsers((state) => state.getUserList);
 
 	const submit = () => {
 		form.validateFields()
@@ -29,10 +40,22 @@ export default function UserEdit({ userInfo }: { userInfo?: UserInfo }) {
 				console.log("submit", data);
 				saveUser(data).then((res) => {
 					message.success({ content: "保存用户成功", key });
+					getUserList();
 					navigate("/user/view");
 				});
 			})
 			.catch((err) => console.log("err", err));
+	};
+
+	const deleteuser = () => {
+		if (!userInfo) return;
+		const key = "deleteUser";
+		message.loading({ content: "删除中...", key });
+		deleteUser(userInfo?.userId).then((res) => {
+			message.success({ content: "删除成功", key });
+			getUserList();
+			navigate("/user/view");
+		});
 	};
 
 	return (
@@ -105,9 +128,29 @@ export default function UserEdit({ userInfo }: { userInfo?: UserInfo }) {
 				</Form.Item>
 
 				<Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-					<Button type='primary' onClick={submit}>
-						{userInfo ? "修改" : "创建用户"}
-					</Button>
+					<Space>
+						<Button type='primary' onClick={submit}>
+							{userInfo ? "修改" : "创建用户"}
+						</Button>
+						{userInfo ? (
+							<Button
+								type='primary'
+								danger
+								onClick={() => {
+									Modal.warning({
+										title: "确认删除用户？",
+										content: "删除后用户数据不可恢复",
+										okText: "删除",
+										onOk: deleteuser,
+										closable: true,
+										maskClosable: true,
+									});
+								}}
+							>
+								删除用户
+							</Button>
+						) : null}
+					</Space>
 				</Form.Item>
 			</Form>
 		</>

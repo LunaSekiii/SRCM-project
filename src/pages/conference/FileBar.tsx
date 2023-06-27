@@ -73,7 +73,7 @@ export default function FileBar({
 					</div>
 				</div>
 			) : (
-				<SideFileList data={fileList} />
+				<SideFileList data={fileList} meetingId={meetingId} />
 			)}
 			<Button
 				type='primary'

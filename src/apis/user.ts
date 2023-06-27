@@ -74,3 +74,10 @@ export function updateUserInfo(userInfo: Object) {
 		headers: { "Content-Type": "application/json" },
 	});
 }
+
+/**
+ * 删除用户接口
+ */
+export function deleteUser(userId: number) {
+	return xf(`user/del/${userId}`);
+}
