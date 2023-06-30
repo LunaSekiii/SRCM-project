@@ -30,6 +30,7 @@ export function getUserList() {
  * 编辑用户信息参数（管理员）
  */
 export interface UserInfo4Admin {
+	userId?: number;
 	userName?: string;
 	password?: string;
 	userInfoName?: string;

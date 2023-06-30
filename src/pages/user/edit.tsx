@@ -36,6 +36,7 @@ export default function UserEdit({ userInfo }: { userInfo?: UserInfo }) {
 		form.validateFields()
 			.then((res) => {
 				const data = { ...res };
+				if (userInfo) data["userId"] = userInfo.userId;
 				message.loading({ content: "保存用户...", key });
 				console.log("submit", data);
 				saveUser(data).then((res) => {
